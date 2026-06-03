@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-tables" author="sayat">
+
+        <createTable tableName="courses">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="TEXT"/>
+
+            <column name="created_time" type="TIMESTAMP"/>
+
+            <column name="updated_time" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="chapters">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="TEXT"/>
+
+            <column name="order_number" type="INT"/>
+
+            <column name="course_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_time" type="TIMESTAMP"/>
+
+            <column name="updated_time" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="lessons">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="TEXT"/>
+
+            <column name="content" type="TEXT"/>
+
+            <column name="order_number" type="INT"/>
+
+            <column name="chapter_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="created_time" type="TIMESTAMP"/>
+
+            <column name="updated_time" type="TIMESTAMP"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="chapters"
+                baseColumnNames="course_id"
+                referencedTableName="courses"
+                referencedColumnNames="id"
+                constraintName="fk_chapter_course"/>
+
+        <addForeignKeyConstraint
+                baseTableName="lessons"
+                baseColumnNames="chapter_id"
+                referencedTableName="chapters"
+                referencedColumnNames="id"
+                constraintName="fk_lesson_chapter"/>
+
+    </changeSet>
+
+</databaseChangeLog>
